@@ -4,5 +4,5 @@
  [assembly: AssemblyCompany("FXGuild")]
  [assembly: AssemblyCopyright("MIT License - Copyright (c) 2016 FXGuild")]
  [assembly: AssemblyProduct("CommonCSharp")]
- [assembly: AssemblyVersion("0.0.0.11")]
+ [assembly: AssemblyVersion("0.0.0.12")]
  [assembly: ComVisible(false)]
