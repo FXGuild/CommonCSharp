@@ -3,6 +3,7 @@
  
  [assembly: AssemblyCompany("FXGuild")]
  [assembly: AssemblyCopyright("MIT License - Copyright (c) 2016 FXGuild")]
- [assembly: AssemblyProduct("CommonCSharp")]
- [assembly: AssemblyVersion("0.0.0.12")]
+ [assembly: AssemblyDescription("Utility classes and functions in C#")]
+ [assembly: AssemblyProduct("FXGuild.Common")]
+ [assembly: AssemblyVersion("0.0.0.13")]
  [assembly: ComVisible(false)]
