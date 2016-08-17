@@ -5,5 +5,5 @@
  [assembly: AssemblyCopyright("MIT License - Copyright (c) 2016 FXGuild")]
  [assembly: AssemblyDescription("Utility classes and functions in C#")]
  [assembly: AssemblyProduct("FXGuild.Common")]
- [assembly: AssemblyVersion("0.0.0.13")]
+ [assembly: AssemblyVersion("0.0.1.0")]
  [assembly: ComVisible(false)]
