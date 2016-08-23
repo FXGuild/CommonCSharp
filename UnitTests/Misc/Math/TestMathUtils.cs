@@ -40,9 +40,17 @@ namespace FXGuild.Common.UnitTests.Misc
         }
 
         [TestMethod]
+        public void AlmostEquals_CustomEpsilon_ValidResult()
+        {
+            Assert.IsTrue(MathUtils.AreAlmostEqual(1, 1 + 1e-8, 1e-7));
+        }
+
+        [TestMethod]
         public void IsPowerOfTwo_Zero_ValidResult()
         {
+            Assert.IsFalse(MathUtils.IsPowerOfTwo(0L));
             Assert.IsFalse(MathUtils.IsPowerOfTwo(0UL));
+            Assert.IsFalse(MathUtils.IsPowerOfTwo(0.0));
         }
 
         [TestMethod]
@@ -50,7 +58,11 @@ namespace FXGuild.Common.UnitTests.Misc
         {
             Assert.IsTrue(MathUtils.IsPowerOfTwo(64UL));
             Assert.IsTrue(MathUtils.IsPowerOfTwo(8UL));
+            Assert.IsTrue(MathUtils.IsPowerOfTwo(256.0));
+            Assert.IsTrue(MathUtils.IsPowerOfTwo(0.125));
+
             Assert.IsFalse(MathUtils.IsPowerOfTwo(2413UL));
+            Assert.IsFalse(MathUtils.IsPowerOfTwo(4.53));
         }
 
         [TestMethod]
@@ -59,29 +71,14 @@ namespace FXGuild.Common.UnitTests.Misc
             Assert.IsFalse(MathUtils.IsPowerOfTwo(-8L));
             Assert.IsFalse(MathUtils.IsPowerOfTwo(-256L));
             Assert.IsFalse(MathUtils.IsPowerOfTwo(-241L));
-        }
-
-        [TestMethod]
-        public void PreviousOrCurrentPowerOfTwo_Zero_ValidResult()
-        {
-            Assert.AreEqual(0UL, MathUtils.PreviousOrCurrentPowerOfTwo(0));
-            Assert.AreEqual(0UL, MathUtils.PreviousOrCurrentPowerOfTwo(0UL));
-            Assert.AreEqual(0.0, MathUtils.PreviousOrCurrentPowerOfTwo(0.0));
-        }
-
-        [TestMethod]
-        public void PreviousOrCurrentPowerOfTwo_Negative_ValidResult()
-        {
-            Assert.AreEqual(0UL, MathUtils.PreviousOrCurrentPowerOfTwo(-1));
-            Assert.AreEqual(0UL, MathUtils.PreviousOrCurrentPowerOfTwo(-421L));
-            Assert.AreEqual(0.0, MathUtils.PreviousOrCurrentPowerOfTwo(-3.43));
+            Assert.IsFalse(MathUtils.IsPowerOfTwo(-0.4214));
         }
 
         [TestMethod]
         public void PreviousOrCurrentPowerOfTwo_PowersOf2_ValidResult()
         {
-            Assert.AreEqual(1UL, MathUtils.PreviousOrCurrentPowerOfTwo(1));
-            Assert.AreEqual(2UL, MathUtils.PreviousOrCurrentPowerOfTwo(2));
+            Assert.AreEqual(1UL, MathUtils.PreviousOrCurrentPowerOfTwo(1UL));
+            Assert.AreEqual(2UL, MathUtils.PreviousOrCurrentPowerOfTwo(2UL));
             Assert.AreEqual(64UL, MathUtils.PreviousOrCurrentPowerOfTwo(64UL));
             Assert.AreEqual(2048.0, MathUtils.PreviousOrCurrentPowerOfTwo(2048.0));
         }
@@ -89,26 +86,26 @@ namespace FXGuild.Common.UnitTests.Misc
         [TestMethod]
         public void PreviousOrCurrentPowerOfTwo_PositiveNonPowersOf2_ValidResult()
         {
-            Assert.AreEqual(16UL, MathUtils.PreviousOrCurrentPowerOfTwo(31));
-            Assert.AreEqual(1024UL, MathUtils.PreviousOrCurrentPowerOfTwo(1252));
-            Assert.AreEqual(2UL, MathUtils.PreviousOrCurrentPowerOfTwo(3));
+            Assert.AreEqual(16UL, MathUtils.PreviousOrCurrentPowerOfTwo(31UL));
+            Assert.AreEqual(1024UL, MathUtils.PreviousOrCurrentPowerOfTwo(1252UL));
+            Assert.AreEqual(2UL, MathUtils.PreviousOrCurrentPowerOfTwo(3UL));
             Assert.AreEqual(2048.0, MathUtils.PreviousOrCurrentPowerOfTwo(3568.124));
         }
 
         [TestMethod]
         public void NextOrCurrentPowerOfTwo_Zero_ValidResult()
         {
-            Assert.AreEqual(0UL, MathUtils.NextOrCurrentPowerOfTwo(0));
-            Assert.AreEqual(0UL, MathUtils.NextOrCurrentPowerOfTwo(0L));
-            Assert.AreEqual(0.0, MathUtils.NextOrCurrentPowerOfTwo(0.0));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentPowerOfTwo(0));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentPowerOfTwo(0L));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentIntegralPowerOfTwo(0.0));
         }
 
         [TestMethod]
         public void NextOrCurrentPowerOfTwo_NegativeInputs_ValidResult()
         {
-            Assert.AreEqual(0UL, MathUtils.NextOrCurrentPowerOfTwo(-1));
-            Assert.AreEqual(0UL, MathUtils.NextOrCurrentPowerOfTwo(-467347));
-            Assert.AreEqual(0.0, MathUtils.NextOrCurrentPowerOfTwo(-467.432));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentPowerOfTwo(-1));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentPowerOfTwo(-467347));
+            Assert.AreEqual(1UL, MathUtils.NextOrCurrentIntegralPowerOfTwo(-467.432));
         }
 
         [TestMethod]
@@ -117,7 +114,7 @@ namespace FXGuild.Common.UnitTests.Misc
             Assert.AreEqual(1UL, MathUtils.NextOrCurrentPowerOfTwo(1));
             Assert.AreEqual(4UL, MathUtils.NextOrCurrentPowerOfTwo(4));
             Assert.AreEqual(256UL, MathUtils.NextOrCurrentPowerOfTwo(256UL));
-            Assert.AreEqual(4096.0, MathUtils.NextOrCurrentPowerOfTwo(4096.0));
+            Assert.AreEqual(4096UL, MathUtils.NextOrCurrentIntegralPowerOfTwo(4096.0));
         }
 
         [TestMethod]
@@ -126,7 +123,7 @@ namespace FXGuild.Common.UnitTests.Misc
             Assert.AreEqual(32UL, MathUtils.NextOrCurrentPowerOfTwo(31));
             Assert.AreEqual(2048UL, MathUtils.NextOrCurrentPowerOfTwo(1252));
             Assert.AreEqual(4UL, MathUtils.NextOrCurrentPowerOfTwo(3));
-            Assert.AreEqual(128.0, MathUtils.NextOrCurrentPowerOfTwo(124.5425325));
+            Assert.AreEqual(128UL, MathUtils.NextOrCurrentIntegralPowerOfTwo(124.5425325));
         }
 
         [TestMethod]

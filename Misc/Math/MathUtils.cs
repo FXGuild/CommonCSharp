@@ -22,11 +22,11 @@ using System.Diagnostics.Contracts;
 
 namespace FXGuild.Common.Misc
 {
+    [Pure]
     public static class MathUtils
     {
         #region Static methods
 
-        [Pure]
         public static bool AreAlmostEqual(double a_A,
                                           double a_B,
                                           double a_Epsilon = double.Epsilon)
@@ -34,55 +34,69 @@ namespace FXGuild.Common.Misc
             return Math.Abs(a_A - a_B) < a_Epsilon;
         }
 
-        [Pure]
         public static bool IsPowerOfTwo(long a_Val)
         {
             return (a_Val > 0) && IsPowerOfTwo((ulong) a_Val);
         }
 
-        [Pure]
         public static bool IsPowerOfTwo(ulong a_Val)
         {
             return (a_Val != 0) && ((a_Val & (~a_Val + 1)) == a_Val);
         }
 
-        [Pure]
-        public static ulong PreviousOrCurrentPowerOfTwo(long a_Val)
+        public static bool IsPowerOfTwo(double a_Val, double a_Epsilon = double.Epsilon)
         {
-            return (ulong) PreviousOrCurrentPowerOfTwo((double) a_Val);
+            double log2 = Math.Log(a_Val, 2);
+            return AreAlmostEqual(log2, Math.Round(log2), a_Epsilon);
         }
 
-        [Pure]
         public static ulong PreviousOrCurrentPowerOfTwo(ulong a_Val)
         {
-            return (ulong) PreviousOrCurrentPowerOfTwo((double) a_Val);
+            Contract.Requires(a_Val != 0);
+            Contract.Ensures(IsPowerOfTwo(Contract.Result<ulong>()));
+            
+            Contract.Assume((double) a_Val > 0);
+            ulong result = (ulong) PreviousOrCurrentPowerOfTwo((double) a_Val);
+            Contract.Assume(IsPowerOfTwo(result));
+
+            return result;
         }
 
-        [Pure]
         public static double PreviousOrCurrentPowerOfTwo(double a_Val)
         {
-            return a_Val <= 0 ? 0 : Math.Pow(2, Math.Floor(Math.Log(a_Val, 2)));
+            Contract.Requires(a_Val > 0);
+            Contract.Ensures(IsPowerOfTwo(Contract.Result<double>()));
+
+            double result = Math.Pow(2, Math.Floor(Math.Log(a_Val, 2)));
+            Contract.Assume(IsPowerOfTwo(result));
+
+            return result;
         }
 
-        [Pure]
         public static ulong NextOrCurrentPowerOfTwo(long a_Val)
         {
-            return (ulong) NextOrCurrentPowerOfTwo((double) a_Val);
+            Contract.Ensures(IsPowerOfTwo(Contract.Result<ulong>()));
+            return NextOrCurrentIntegralPowerOfTwo(a_Val);
         }
 
-        [Pure]
         public static ulong NextOrCurrentPowerOfTwo(ulong a_Val)
         {
-            return (ulong) NextOrCurrentPowerOfTwo((double) a_Val);
+            Contract.Ensures(IsPowerOfTwo(Contract.Result<ulong>()));
+            return NextOrCurrentIntegralPowerOfTwo(a_Val);
         }
 
-        [Pure]
-        public static double NextOrCurrentPowerOfTwo(double a_Val)
+        public static ulong NextOrCurrentIntegralPowerOfTwo(double a_Val)
         {
-            return a_Val <= 0 ? 0 : Math.Pow(2, Math.Ceiling(Math.Log(a_Val, 2)));
+            Contract.Ensures(IsPowerOfTwo(Contract.Result<ulong>()));
+
+            ulong result = a_Val <= 1 
+                ? 1
+                : (ulong) Math.Pow(2, Math.Ceiling(Math.Log(a_Val, 2)));
+            Contract.Assume(IsPowerOfTwo(result));
+
+            return result;
         }
 
-        [Pure]
         public static bool IsInteger(double a_Val)
         {
             return AreAlmostEqual(a_Val, Math.Round(a_Val));
