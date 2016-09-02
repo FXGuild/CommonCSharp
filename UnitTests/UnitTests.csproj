@@ -149,9 +149,9 @@
       <Project>{f6d630ef-b1f3-49a0-9e99-489101ce587b}</Project>
       <Name>Misc</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaskMonitor\TaskMonitor.csproj">
+    <ProjectReference Include="..\Tracing\Tracing.csproj">
       <Project>{380072b2-b892-4064-8307-cb6cf0d735d4}</Project>
-      <Name>TaskMonitor</Name>
+      <Name>Tracing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

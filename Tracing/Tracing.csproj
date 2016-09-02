@@ -7,8 +7,8 @@
     <ProjectGuid>{380072B2-B892-4064-8307-CB6CF0D735D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaskMonitor</RootNamespace>
-    <AssemblyName>FXGuild.Common.TaskMonitor</AssemblyName>
+    <RootNamespace>Tracing</RootNamespace>
+    <AssemblyName>FXGuild.Common.Tracing</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
