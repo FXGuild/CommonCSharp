@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Logging\Logging.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracing", "Tracing\Tracing.csproj", "{380072B2-B892-4064-8307-CB6CF0D735D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceEnumGenerator", "TraceEnumGenerator\TraceEnumGenerator.csproj", "{BEB026EA-1307-439B-B3E1-170D85A6340E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{380072B2-B892-4064-8307-CB6CF0D735D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{380072B2-B892-4064-8307-CB6CF0D735D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{380072B2-B892-4064-8307-CB6CF0D735D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB026EA-1307-439B-B3E1-170D85A6340E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB026EA-1307-439B-B3E1-170D85A6340E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB026EA-1307-439B-B3E1-170D85A6340E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB026EA-1307-439B-B3E1-170D85A6340E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
