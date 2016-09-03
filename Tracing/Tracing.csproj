@@ -120,12 +120,29 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Anomaly.cs" />
+    <Compile Include="Model\AnomalyType.cs" />
+    <Compile Include="Model\Module.cs" />
+    <Compile Include="Observation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\TaskClassDescription.cs" />
+    <Compile Include="Model\TaskType.cs" />
+    <Compile Include="TraceSession.cs" />
+    <Compile Include="Model\TraceModel.cs" />
+    <Compile Include="Tracer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{E5A6C096-64BE-47F3-9DF6-3BDD1BC65C20}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
