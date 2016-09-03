@@ -125,6 +125,8 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="JavaLikeEnum.cs" />
+    <Compile Include="JavaLikeEnumException.cs" />
     <Compile Include="Math\MathUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

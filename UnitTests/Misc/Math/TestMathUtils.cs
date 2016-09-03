@@ -23,7 +23,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FXGuild.Common.UnitTests.Misc
 {
     [TestClass]
-    public class TestMathUtils
+    public sealed class TestMathUtils
     {
         #region Methods
 
