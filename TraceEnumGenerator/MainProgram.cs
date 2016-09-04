@@ -102,7 +102,8 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
             }
 
             // Copy TraceModel.json file to bin directory
-            outputFile = a_Args[1] + "/" + model.RootModule.Namespace + ".TraceModel.json";
+            outputFile = a_Args[1] + "/" + model.RootModule.Namespace +
+                         TracerProvider.TRACE_MODEL_SUFFIX;
             logger.Info("Copying C# file to \"" + outputFile + "\"");
             File.Copy(a_Args[0], outputFile, true);
 
