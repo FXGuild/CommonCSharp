@@ -24,6 +24,7 @@ using System.Runtime.Serialization.Json;
 namespace FXGuild.Common.Tracing.Model
 {
     [DataContract]
+    // ReSharper disable once ClassCannotBeInstantiated
     public sealed class TraceModel
     {
         #region Runtime constants
@@ -44,6 +45,11 @@ namespace FXGuild.Common.Tracing.Model
         static TraceModel()
         {
             DCJS = new DataContractJsonSerializer(typeof(TraceModel));
+        }
+
+        private TraceModel()
+        {
+            // Remove default constructor
         }
 
         #endregion

@@ -17,21 +17,33 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
+using System.Diagnostics;
+
 namespace FXGuild.Common.Tracing
 {
-    public sealed class Tracer
+    public sealed class Tracer : IDisposable
     {
-        #region Properties
+        #region Private fields
 
-        public TraceSession Session { get; }
+        private readonly Stopwatch m_Stopwatch;
 
         #endregion
 
         #region Constructors
 
-        internal Tracer(TraceSession a_Session)
+        public Tracer()
         {
-            Session = a_Session;
+            m_Stopwatch = Stopwatch.StartNew();
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void Dispose()
+        {
+            m_Stopwatch.Stop();
         }
 
         #endregion

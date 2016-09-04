@@ -35,31 +35,43 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
     /// </summary>
     public static class MainProgram
     {
+        #region Compile-time constants
+
+        private const string HELP_MSG = "Expected two argument: " +
+                                        "(1) path to a TraceModel.json file " +
+                                        "(2) path to the bin directory";
+
+        #endregion
+
         #region Static methods
 
         private static void Main(string[] a_Args)
         {
             var logger = new Logger();
+            logger.Info("Trace Enum Generator");
 
             // Check args
-            if (a_Args.Length != 1)
+            if (a_Args.Length != 2)
             {
-                logger.Error("Expected one argument");
+                logger.Error(HELP_MSG);
                 Environment.Exit(-1);
             }
+
             // Deserialize trace model
+            logger.Info("Deserializing trace model \"" + a_Args[0] + "\"");
             var model = TraceModel.DeserializeTraceModel(a_Args[0]);
 
             // Create enum file DOM
             var compileUnit = new CodeCompileUnit();
 
             // Process modules
+            logger.Info("Generating enum file DOM...");
             ProcessModule(model.RootModule, compileUnit, model.RootModule.Namespace);
 
-            // Create C# code provider
+            // Write C# enum file
+            string outputFile = a_Args[0].Replace(".json", ".cs");
+            logger.Info("Writing C# file to \"" + outputFile + "\"");
             var provider = new CSharpCodeProvider();
-
-            // Write file
             using (var sw = new StreamWriter(a_Args[0].Replace(".json", ".cs"), false))
             {
                 using (var tw = new IndentedTextWriter(sw))
@@ -72,6 +84,25 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                             IndentString = "    "
                         });
                 }
+            }
+
+            // Check if program must pause before existing
+            bool mustPause = a_Args[1].Contains(" & pause");
+            if (mustPause)
+            {
+                a_Args[1] = a_Args[1].Replace(" & pause", string.Empty);
+            }
+
+            // Copy TraceModel.json file to bin directory
+            outputFile = a_Args[1] + "/" + model.RootModule.Namespace + ".TraceModel.json";
+            logger.Info("Copying C# file to \"" + outputFile + "\"");
+            File.Copy(a_Args[0], outputFile, true);
+
+            // Pause if asked
+            if (mustPause)
+            {
+                Console.WriteLine("Press any key to continue...");
+                Console.Read();
             }
         }
 
