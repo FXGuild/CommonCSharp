@@ -26,6 +26,14 @@ namespace FXGuild.Common.Logging
 {
     public sealed class Logger
     {
+        // This is because in Release builds, wrapper functions are inline so call stack is shorter
+        private const uint WRAPPER_LOG_FUNC_STACK_FRAMES_TO_SKIP =
+#if DEBUG
+            1;
+#else
+            0;
+#endif
+
         #region Properties
 
         public uint FunctionSignatureWidth { get; set; }
@@ -81,28 +89,29 @@ namespace FXGuild.Common.Logging
 
         public void Debug(string a_MsgFormat, params object[] a_Args)
         {
-            Log(VerboseLevel.DEBUG, 1, a_MsgFormat, a_Args);
+            Log(VerboseLevel.DEBUG, WRAPPER_LOG_FUNC_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
         }
 
         public void Info(string a_MsgFormat, params object[] a_Args)
         {
-            Log(VerboseLevel.INFO, 1, a_MsgFormat, a_Args);
+            Log(VerboseLevel.INFO, WRAPPER_LOG_FUNC_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
         }
 
         public void Warning(string a_MsgFormat, params object[] a_Args)
         {
-            Log(VerboseLevel.WARNING, 1, a_MsgFormat, a_Args);
+            Log(VerboseLevel.WARNING, WRAPPER_LOG_FUNC_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
         }
 
         public void Error(string a_MsgFormat, params object[] a_Args)
         {
-            Log(VerboseLevel.ERROR, 1, a_MsgFormat, a_Args);
+            Log(VerboseLevel.ERROR, WRAPPER_LOG_FUNC_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
         }
 
         private string GetCurrentMethodSignature(uint a_StackFramesToSkip)
         {
             // Get current method
             var stackTrace = new StackTrace((int) a_StackFramesToSkip + 1);
+
             if (stackTrace.FrameCount == 0)
             {
                 throw new ArgumentException("Too many stack frames to skip");
