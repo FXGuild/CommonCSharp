@@ -28,6 +28,8 @@ using System.Linq;
 using System.Reflection;
 using Module = FXGuild.Common.Tracing.Model.Module;
 
+// ReSharper disable BitwiseOperatorOnEnumWithoutFlags
+
 namespace FXGuild.Common.Tracing.TraceEnumGenerator
 {
     /// <summary>
@@ -63,6 +65,12 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
 
             // Create enum file DOM
             var compileUnit = new CodeCompileUnit();
+
+            // Add Tracing using statement
+            compileUnit.Namespaces.Add(new CodeNamespace
+            {
+                Imports = {new CodeNamespaceImport("FXGuild.Common.Tracing")}
+            });
 
             // Process modules
             logger.Info("Generating enum file DOM...");
@@ -129,13 +137,17 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                     }
 
                     // Extend existing partial Task class
+                    var typeAttr = taskClassDesc.IsPublic
+                        ? TypeAttributes.Public
+                        : TypeAttributes.NotPublic;
+                    if (taskClassDesc.IsSealed)
+                    {
+                        typeAttr |= TypeAttributes.Sealed;
+                    }
                     var partialClassDecl = new CodeTypeDeclaration(taskClassDesc.Name)
                     {
                         IsPartial = true,
-                        TypeAttributes =
-                            taskClassDesc.IsPublic
-                                ? TypeAttributes.Public
-                                : TypeAttributes.NotPublic
+                        TypeAttributes = typeAttr
                     };
                     namespaceDecl.Types.Add(partialClassDecl);
 
@@ -170,6 +182,42 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                                     CodeTypeMember)
                             .ToArray());
                     }
+
+                    // Add Tracer handle
+                    partialClassDecl.Members.Add(new CodeMemberField
+                    {
+                        Attributes =
+                            MemberAttributes.Static |
+                            (taskClassDesc.IsSealed
+                                ? MemberAttributes.Private
+                                : MemberAttributes.Family),
+                        Type = new CodeTypeReference
+                        {
+                            BaseType = "Tracer"
+                        },
+                        Name = "CLASS_TRACER",
+                        InitExpression = new CodeMethodInvokeExpression
+                        {
+                            Method = new CodeMethodReferenceExpression
+                            {
+                                TargetObject = new CodeTypeReferenceExpression
+                                {
+                                    Type = new CodeTypeReference
+                                    {
+                                        BaseType = "TracerProvider"
+                                    }
+                                },
+                                MethodName = "GetTracer",
+                                TypeArguments =
+                                {
+                                    new CodeTypeReference
+                                    {
+                                        BaseType = taskClassDesc.Name
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             }
 

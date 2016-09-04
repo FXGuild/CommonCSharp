@@ -8,11 +8,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using FXGuild.Common.Tracing;
+
+
 namespace FXGuild.Common.UnitTests.Tracing
 {
     
-    internal partial class GlobalTaskClass
+    internal sealed partial class GlobalTaskClass
     {
+        private static Tracer CLASS_TRACER = TracerProvider.GetTracer<GlobalTaskClass>();
         private enum Task
         {
             DO_GLOBAL_STUFF,
@@ -22,8 +26,9 @@ namespace FXGuild.Common.UnitTests.Tracing
 namespace FXGuild.Common.UnitTests.Tracing.Food.Fruits
 {
     
-    internal partial class FruitEater
+    internal sealed partial class FruitEater
     {
+        private static Tracer CLASS_TRACER = TracerProvider.GetTracer<FruitEater>();
         private enum Task
         {
             EAT_FRUITS,

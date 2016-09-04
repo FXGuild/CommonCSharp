@@ -34,6 +34,9 @@ namespace FXGuild.Common.Tracing.Model
         public bool IsPublic { get; private set; }
 
         [DataMember]
+        public bool IsSealed { get; private set; }
+
+        [DataMember]
         public List<TaskType> TaskTypes { get; private set; }
         
         [DataMember]
@@ -47,6 +50,7 @@ namespace FXGuild.Common.Tracing.Model
         private void OnDeserializing(StreamingContext a_Context)
         {
             IsPublic = true;
+            IsSealed = false;
             TaskTypes = new List<TaskType>();
             AnomalyTypes = new List<AnomalyType>();
         }

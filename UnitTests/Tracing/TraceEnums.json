@@ -7,6 +7,7 @@
             {
                 "Name": "GlobalTaskClass",
                 "IsPublic": false,
+                "IsSealed": true,
                 "TaskTypes":
                 [
                     {
@@ -29,6 +30,7 @@
                             {
                                 "Name": "FruitEater",
                                 "IsPublic": false,
+                                "IsSealed": true,
                                 "TaskTypes":
                                 [
                                     {
