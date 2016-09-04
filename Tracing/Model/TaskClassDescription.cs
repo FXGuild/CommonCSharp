@@ -50,7 +50,7 @@ namespace FXGuild.Common.Tracing.Model
         private void OnDeserializing(StreamingContext a_Context)
         {
             IsPublic = true;
-            IsSealed = false;
+            IsSealed = true;
             TaskTypes = new List<TaskType>();
             AnomalyTypes = new List<AnomalyType>();
         }

@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracing", "Tracing\Tracing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceEnumGenerator", "TraceEnumGenerator\TraceEnumGenerator.csproj", "{BEB026EA-1307-439B-B3E1-170D85A6340E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracedTestApp", "TestTracedApp\TracedTestApp.csproj", "{2F8294AF-D300-477F-BDEA-02F09FE7CA4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracedTestApp", "TracedTestApp\TracedTestApp.csproj", "{2F8294AF-D300-477F-BDEA-02F09FE7CA4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

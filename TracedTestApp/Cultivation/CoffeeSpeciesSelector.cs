@@ -17,11 +17,20 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
-namespace FXGuild.Common.UnitTests.Tracing
+namespace FXGuild.Common.Tracing.TracedTestApp.Cultivation
 {
-    [TestClass]
-    public sealed class TestTraceModel
-    {}
+    internal sealed class CoffeeSpeciesSelector
+    {
+        #region Methods
+
+        internal CoffeeSpecies Select()
+        {
+            int idx = new Random().Next(0, CoffeeSpecies.Values().Count);
+            return CoffeeSpecies.Values()[idx];
+        }
+
+        #endregion
+    }
 }

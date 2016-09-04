@@ -1,0 +1,59 @@
+{
+    "RootModule":
+    {
+        "Namespace": "FXGuild.Common.Tracing.TracedTestApp",
+        "SubModules":
+        [
+            {
+                "Namespace": "Cultivation",
+                "TaskClassDescriptions":
+                [
+                    {
+                        "Name": "Cultivator",
+                        "IsPublic": false,
+                        "IsSealed": true,
+                        "TaskTypes":
+                        [
+                            {
+                                "Name": "Cultivate coffee beans",
+                                "Subtasks":
+                                [
+                                    {
+                                        "Name": "Select coffee species"
+                                    },
+                                    {
+                                        "Name": "Buy germinators and seedbeds"
+                                    },
+                                    {
+                                        "Name": "Germinate seeds"
+                                    },
+                                    {
+                                        "Name": "Develop seedlings"
+                                    },
+                                    {
+                                        "Name": "Grow trees",
+                                        "Subtasks":
+                                        [
+                                            {
+                                                "Name": "Remove weeds"
+                                            },
+                                            {
+                                                "Name": "Fertilize"
+                                            },
+                                            {
+                                                "Name": "Grow"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "Name": "Harvest cherries",
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -17,11 +17,15 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace FXGuild.Common.UnitTests.Tracing
+namespace FXGuild.Common.TracedTestApp.Food
 {
-    [TestClass]
-    public sealed class TestTraceModel
-    {}
+    public static class MainProgram
+    {
+        #region Static methods
+
+        public static void Main(string[] a_Args)
+        {}
+
+        #endregion
+    }
 }

@@ -17,11 +17,8 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace FXGuild.Common.UnitTests.Tracing
+namespace FXGuild.Common.Tracing.TracedTestApp.Cultivation
 {
-    [TestClass]
-    public sealed class TestTraceModel
+    internal sealed class CoffeeSeedling
     {}
 }

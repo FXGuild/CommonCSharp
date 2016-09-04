@@ -17,11 +17,38 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using FXGuild.Common.Misc;
 
-namespace FXGuild.Common.UnitTests.Tracing
+namespace FXGuild.Common.Tracing.TracedTestApp.Cultivation
 {
-    [TestClass]
-    public sealed class TestTraceModel
-    {}
+    internal sealed class CoffeeSpecies : JavaLikeEnum<CoffeeSpecies>
+    {
+        #region Runtime constants
+
+        public static readonly CoffeeSpecies ARABICA;
+        public static readonly CoffeeSpecies ROBUSTA;
+
+        #endregion
+
+        #region Properties
+
+        public string ScientificName { get; }
+
+        #endregion
+
+        #region Constructors
+
+        static CoffeeSpecies()
+        {
+            ARABICA = new CoffeeSpecies("Coffea arabica");
+            ROBUSTA = new CoffeeSpecies("Coffea canephora");
+        }
+
+        private CoffeeSpecies(string a_ScientificName)
+        {
+            ScientificName = a_ScientificName;
+        }
+
+        #endregion
+    }
 }

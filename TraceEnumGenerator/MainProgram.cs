@@ -26,6 +26,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Module = FXGuild.Common.Tracing.Model.Module;
 
 // ReSharper disable BitwiseOperatorOnEnumWithoutFlags
@@ -163,7 +164,8 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                         partialClassDecl.Members.Add(enumTypeDecl);
                         enumTypeDecl.Members.AddRange(taskClassDesc.TaskTypes.Select(
                             a_TaskType =>
-                                new CodeMemberField("Task", a_TaskType.EnumName) as
+                                new CodeMemberField("Task", ConvertToEnumName(a_TaskType.Name))
+                                    as
                                     CodeTypeMember)
                             .ToArray());
                     }
@@ -179,7 +181,8 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                         partialClassDecl.Members.Add(enumTypeDecl);
                         enumTypeDecl.Members.AddRange(taskClassDesc.AnomalyTypes.Select(
                             a_AnomalyType =>
-                                new CodeMemberField("Anomaly", a_AnomalyType.EnumName) as
+                                new CodeMemberField("Anomaly",
+                                    ConvertToEnumName(a_AnomalyType.Name)) as
                                     CodeTypeMember)
                             .ToArray());
                     }
@@ -228,6 +231,12 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
                 ProcessModule(subModule, a_CompileUnit,
                     namespaceDecl.Name + '.' + subModule.Namespace);
             }
+        }
+
+        private static string ConvertToEnumName(string a_Str)
+        {
+            string clean = Regex.Replace(a_Str, @"[^\w\s]", string.Empty);
+            return clean.Replace(' ', '_').ToUpper();
         }
 
         #endregion

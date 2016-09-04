@@ -17,6 +17,7 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FXGuild.Common.Tracing.Model
@@ -29,8 +30,18 @@ namespace FXGuild.Common.Tracing.Model
         [DataMember(IsRequired = true)]
         public string Name { get; private set; }
 
-        [DataMember(IsRequired = true)]
-        public string EnumName { get; private set; }
+        [DataMember]
+        public List<TaskType> Subtasks { get; private set; }
+
+        #endregion
+
+        #region Methods
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext a_Context)
+        {
+            Subtasks = new List<TaskType>();
+        }
 
         #endregion
     }

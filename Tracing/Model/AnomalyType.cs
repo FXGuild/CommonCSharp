@@ -56,9 +56,6 @@ namespace FXGuild.Common.Tracing.Model
         public string Name { get; private set; }
 
         [DataMember(IsRequired = true)]
-        public string EnumName { get; private set; }
-
-        [DataMember(IsRequired = true)]
         public SeverityLevel Severity { get; private set; }
 
         [DataMember]
