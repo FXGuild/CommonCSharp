@@ -1,16 +1,16 @@
 ﻿// MIT License
-//
+// 
 // Copyright (c) 2016 FXGuild
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -22,39 +22,39 @@ using System.Runtime.Serialization;
 
 namespace FXGuild.Common.Tracing.Model
 {
-    [DataContract]
-    public sealed class TaskClassDescription
-    {
-        #region Properties
+   [DataContract]
+   public sealed class TaskClassDescription
+   {
+      #region Properties
 
-        [DataMember(IsRequired = true)]
-        public string Name { get; private set; }
+      [DataMember(IsRequired = true)]
+      public string Name { get; private set; }
 
-        [DataMember]
-        public bool IsPublic { get; private set; }
+      [DataMember]
+      public bool IsPublic { get; private set; }
 
-        [DataMember]
-        public bool IsSealed { get; private set; }
+      [DataMember]
+      public bool IsSealed { get; private set; }
 
-        [DataMember]
-        public List<TaskType> TaskTypes { get; private set; }
-        
-        [DataMember]
-        public List<AnomalyType> AnomalyTypes { get; private set; }
+      [DataMember]
+      public List<TaskType> TaskTypes { get; private set; }
 
-        #endregion
+      [DataMember]
+      public List<AnomalyType> AnomalyTypes { get; private set; }
 
-        #region Methods
+      #endregion
 
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext a_Context)
-        {
-            IsPublic = true;
-            IsSealed = true;
-            TaskTypes = new List<TaskType>();
-            AnomalyTypes = new List<AnomalyType>();
-        }
+      #region Methods
 
-        #endregion
-    }
+      [OnDeserializing]
+      private void OnDeserializing(StreamingContext a_Context)
+      {
+         IsPublic = true;
+         IsSealed = true;
+         TaskTypes = new List<TaskType>();
+         AnomalyTypes = new List<AnomalyType>();
+      }
+
+      #endregion
+   }
 }

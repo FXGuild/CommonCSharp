@@ -20,79 +20,80 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
+
 using FXGuild.Common.Logging;
 
 namespace FXGuild.Common.Tracing.Model
 {
-    [DataContract]
-    public sealed class AnomalyType
-    {
-        #region Nested types
+   [DataContract]
+   public sealed class AnomalyType
+   {
+      #region Nested types
 
-        public enum SeverityLevel
-        {
-            MINIMAL,
-            MODERATE,
-            CRITIC
-        }
+      public enum SeverityLevel
+      {
+         MINIMAL,
+         MODERATE,
+         CRITIC
+      }
 
-        #endregion
+      #endregion
 
-        #region Runtime constants
+      #region Runtime constants
 
-        private static readonly Dictionary<SeverityLevel, VerboseLevel> SEVERITY_TO_VERB_LBL
-            = new Dictionary<SeverityLevel, VerboseLevel>
-            {
-                {SeverityLevel.MINIMAL, VerboseLevel.INFO},
-                {SeverityLevel.MODERATE, VerboseLevel.WARNING},
-                {SeverityLevel.CRITIC, VerboseLevel.ERROR}
-            };
+      private static readonly Dictionary<SeverityLevel, VerboseLevel> SEVERITY_TO_VERB_LBL
+         = new Dictionary<SeverityLevel, VerboseLevel>
+         {
+            {SeverityLevel.MINIMAL, VerboseLevel.INFO},
+            {SeverityLevel.MODERATE, VerboseLevel.WARNING},
+            {SeverityLevel.CRITIC, VerboseLevel.ERROR}
+         };
 
-        #endregion
+      #endregion
 
-        #region Properties
+      #region Properties
 
-        [DataMember(IsRequired = true)]
-        public string Name { get; private set; }
+      [DataMember(IsRequired = true)]
+      public string Name { get; private set; }
 
-        [DataMember(IsRequired = true)]
-        public SeverityLevel Severity { get; private set; }
+      [DataMember(IsRequired = true)]
+      public SeverityLevel Severity { get; private set; }
 
-        [DataMember]
-        public string DetailsFormat { get; private set; }
+      [DataMember]
+      public string DetailsFormat { get; private set; }
 
-        [DataMember]
-        public string Description { get; private set; }
+      [DataMember]
+      public string Description { get; private set; }
 
-        [DataMember]
-        public string Consequence { get; private set; }
+      [DataMember]
+      public string Consequence { get; private set; }
 
-        public VerboseLevel VerboseLvl => SEVERITY_TO_VERB_LBL[Severity];
+      public VerboseLevel VerboseLvl => SEVERITY_TO_VERB_LBL[Severity];
 
-        #endregion
+      #endregion
 
-        #region Methods
+      #region Methods
 
-        internal string FormatMessage(params object[] a_DetailsParams)
-        {
-            return new StringBuilder()
-                .Append(Name)
-                .Append(" - ")
-                .Append(Consequence)
-                .Append(" - ")
-                .Append(Severity)
-                .Append(" - ")
-                .AppendFormat(DetailsFormat, a_DetailsParams).ToString();
-        }
+      internal string FormatMessage(params object[] a_DetailsParams)
+      {
+         return new StringBuilder()
+            .Append(Name)
+            .Append(" - ")
+            .Append(Consequence)
+            .Append(" - ")
+            .Append(Severity)
+            .Append(" - ")
+            .AppendFormat(DetailsFormat, a_DetailsParams).ToString();
+      }
 
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext a_Context)
-        {
-            DetailsFormat = string.Empty;
-            Description = "UNSPECIFIED";
-            Consequence = "UNSPECIFIED";
-        }
+      [OnDeserializing]
+      private void OnDeserializing(StreamingContext a_Context)
+      {
+         DetailsFormat = string.Empty;
+         Description = "UNSPECIFIED";
+         Consequence = "UNSPECIFIED";
+      }
 
-        #endregion
-    }
+      #endregion
+   }
 }

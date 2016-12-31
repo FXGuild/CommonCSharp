@@ -17,53 +17,28 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 
 namespace FXGuild.Common.Tracing.Model
 {
-    [DataContract]
-    // ReSharper disable once ClassCannotBeInstantiated
-    public sealed class TraceModel
-    {
-        #region Runtime constants
+   [DataContract]
+   // ReSharper disable once ClassCannotBeInstantiated
+   public sealed class TraceModel
+   {
+      #region Properties
 
-        private static readonly DataContractJsonSerializer DCJS;
+      [DataMember(IsRequired = true)]
+      public Module RootModule { get; private set; }
 
-        #endregion
+      #endregion
 
-        #region Properties
+      #region Constructors
 
-        [DataMember(IsRequired = true)]
-        public Module RootModule { get; private set; }
+      private TraceModel()
+      {
+         // Remove default constructor
+      }
 
-        #endregion
-
-        #region Constructors
-
-        static TraceModel()
-        {
-            DCJS = new DataContractJsonSerializer(typeof(TraceModel));
-        }
-
-        private TraceModel()
-        {
-            // Remove default constructor
-        }
-
-        #endregion
-
-        #region Static methods
-
-        public static TraceModel DeserializeTraceModel(string a_TraceModelFilePath)
-        {
-            using (var stream = File.OpenRead(a_TraceModelFilePath))
-            {
-                return DCJS.ReadObject(stream) as TraceModel;
-            }
-        }
-
-        #endregion
-    }
+      #endregion
+   }
 }

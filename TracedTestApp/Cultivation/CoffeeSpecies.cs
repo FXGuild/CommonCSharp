@@ -1,16 +1,16 @@
 ﻿// MIT License
-//
+// 
 // Copyright (c) 2016 FXGuild
-//
+// 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 // associated documentation files (the "Software"), to deal in the Software without restriction,
 // including without limitation the rights to use, copy, modify, merge, publish, distribute,
 // sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all copies or
 // substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
 // NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 // NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
@@ -21,34 +21,22 @@ using FXGuild.Common.Misc;
 
 namespace FXGuild.Common.Tracing.TracedTestApp.Cultivation
 {
-    internal sealed class CoffeeSpecies : JavaLikeEnum<CoffeeSpecies>
-    {
-        #region Runtime constants
+   internal sealed class CoffeeSpecies : JavaLikeEnum<CoffeeSpecies>
+   {
+      #region Runtime constants
 
-        public static readonly CoffeeSpecies ARABICA;
-        public static readonly CoffeeSpecies ROBUSTA;
+      public static readonly CoffeeSpecies ARABICA = new CoffeeSpecies
+         {ScientificName = "Coffea arabica"};
 
-        #endregion
+      public static readonly CoffeeSpecies ROBUSTA = new CoffeeSpecies
+         {ScientificName = "Coffea canephora"};
 
-        #region Properties
+      #endregion
 
-        public string ScientificName { get; }
+      #region Properties
 
-        #endregion
+      public string ScientificName { get; private set; }
 
-        #region Constructors
-
-        static CoffeeSpecies()
-        {
-            ARABICA = new CoffeeSpecies("Coffea arabica");
-            ROBUSTA = new CoffeeSpecies("Coffea canephora");
-        }
-
-        private CoffeeSpecies(string a_ScientificName)
-        {
-            ScientificName = a_ScientificName;
-        }
-
-        #endregion
-    }
+      #endregion
+   }
 }

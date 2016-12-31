@@ -17,46 +17,42 @@
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Diagnostics;
-
-using FXGuild.Common.Tracing.Model;
-
-namespace FXGuild.Common.Tracing
+namespace FXGuild.Common.Logging
 {
-   public sealed class Tracer : IDisposable
+   public static class LoggerExtensions
    {
-      #region Private fields
+      #region Compile-time constants
 
-      private readonly TraceModel m_TraceModel;
-      private readonly Stopwatch m_Stopwatch;
+      // This is because in Release builds, wrapper functions are inline so call stack is shorter
+      internal const uint WRAPPER_STACK_FRAMES_TO_SKIP =
+#if DEBUG
+         1;
+#else
+         0;
+#endif
 
       #endregion
 
-      #region Constructors
+      #region Static methods
 
-      public Tracer(TraceModel a_TraceModel)
+      public static void Debug(this Logger a_Logger, string a_MsgFormat, params object[] a_Args)
       {
-         m_TraceModel = a_TraceModel;
-         m_Stopwatch = Stopwatch.StartNew();
+         a_Logger.Log(VerboseLevel.DEBUG, WRAPPER_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
       }
 
-      #endregion
-
-      #region Destructors
-
-      ~Tracer()
+      public static void Info(this Logger a_Logger, string a_MsgFormat, params object[] a_Args)
       {
-         Dispose();
+         a_Logger.Log(VerboseLevel.INFO, WRAPPER_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
       }
 
-      #endregion
-
-      #region Methods
-
-      public void Dispose()
+      public static void Warning(this Logger a_Logger, string a_MsgFormat, params object[] a_Args)
       {
-         m_Stopwatch.Stop();
+         a_Logger.Log(VerboseLevel.WARNING, WRAPPER_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
+      }
+
+      public static void Error(this Logger a_Logger, string a_MsgFormat, params object[] a_Args)
+      {
+         a_Logger.Log(VerboseLevel.ERROR, WRAPPER_STACK_FRAMES_TO_SKIP, a_MsgFormat, a_Args);
       }
 
       #endregion
