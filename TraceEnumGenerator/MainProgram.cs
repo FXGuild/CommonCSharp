@@ -129,88 +129,91 @@ namespace FXGuild.Common.Tracing.TraceEnumGenerator
          // Create module namespace
          var namespaceDecl = new CodeNamespace(a_Namespace);
 
-         // Skip namespaces without task classes
-         if (a_Module.TaskClassesDescriptions.Count > 0)
-         {
-            a_CompileUnit.Namespaces.Add(namespaceDecl);
-
-            // For each Task class in the module
-            foreach (var taskClassDesc in a_Module.TaskClassesDescriptions)
-            {
-               // Skip classes without tasks or anomaly types
-               if (taskClassDesc.TaskTypes.Count + taskClassDesc.AnomalyTypes.Count == 0)
-                  continue;
-
-               // Extend existing partial Task class
-               var typeAttr = taskClassDesc.IsPublic
-                  ? TypeAttributes.Public
-                  : TypeAttributes.NotPublic;
-               if (taskClassDesc.IsSealed)
-                  typeAttr |= TypeAttributes.Sealed;
-               var partialClassDecl = new CodeTypeDeclaration(taskClassDesc.Name)
-               {
-                  IsPartial = true,
-                  TypeAttributes = typeAttr
-               };
-               namespaceDecl.Types.Add(partialClassDecl);
-
-               // Create task enum
-               if (taskClassDesc.TaskTypes.Count > 0)
-               {
-                  var enumTypeDecl = new CodeTypeDeclaration("Task")
-                  {
-                     IsEnum = true,
-                     TypeAttributes = TypeAttributes.NestedPrivate
-                  };
-                  partialClassDecl.Members.Add(enumTypeDecl);
-                  enumTypeDecl.Members.AddRange(taskClassDesc.TaskTypes.Select(
-                     a_TaskType => new CodeMemberField("Task",
-                        ConvertToEnumName(a_TaskType.Name)) as CodeTypeMember).ToArray());
-               }
-
-               // Create anomaly enum
-               if (taskClassDesc.AnomalyTypes.Count > 0)
-               {
-                  var enumTypeDecl = new CodeTypeDeclaration("Anomaly")
-                  {
-                     IsEnum = true,
-                     TypeAttributes = TypeAttributes.NestedPrivate
-                  };
-                  partialClassDecl.Members.Add(enumTypeDecl);
-                  enumTypeDecl.Members.AddRange(taskClassDesc.AnomalyTypes.Select(
-                     a_AnomalyType => new CodeMemberField("Anomaly",
-                        ConvertToEnumName(a_AnomalyType.Name)) as CodeTypeMember).ToArray());
-               }
-
-               // Add Tracer handle
-               partialClassDecl.Members.Add(new CodeMemberField
-               {
-                  Attributes = MemberAttributes.Static |
-                               (taskClassDesc.IsSealed
-                                  ? MemberAttributes.Private
-                                  : MemberAttributes.Family),
-                  Type = new CodeTypeReference {BaseType = "Tracer"},
-                  Name = "CLASS_TRACER",
-                  InitExpression = new CodeMethodInvokeExpression
-                  {
-                     Method = new CodeMethodReferenceExpression
-                     {
-                        TargetObject = new CodeTypeReferenceExpression
-                        {
-                           Type = new CodeTypeReference {BaseType = "TracerProvider"}
-                        },
-                        MethodName = "GetTracer",
-                        TypeArguments = {new CodeTypeReference {BaseType = taskClassDesc.Name}}
-                     }
-                  }
-               });
-            }
-         }
-
          // Process submodules
          foreach (var subModule in a_Module.SubModules)
             ProcessModule(subModule, a_CompileUnit,
                namespaceDecl.Name + '.' + subModule.Namespace);
+
+         // Skip namespaces without task classes
+         if (a_Module.TaskClassesDescriptions.Count <= 0)
+            return;
+
+         a_CompileUnit.Namespaces.Add(namespaceDecl);
+
+         // For each Task class in the module
+         foreach (var taskClassDesc in a_Module.TaskClassesDescriptions)
+         {
+            // Extend existing partial Task class
+            var typeAttr = taskClassDesc.IsPublic
+               ? TypeAttributes.Public
+               : TypeAttributes.NotPublic;
+            if (taskClassDesc.IsSealed)
+               typeAttr |= TypeAttributes.Sealed;
+            var partialClassDecl = new CodeTypeDeclaration(taskClassDesc.Name)
+            {
+               IsPartial = true,
+               TypeAttributes = typeAttr
+            };
+            namespaceDecl.Types.Add(partialClassDecl);
+
+            // Create task enum
+            if (taskClassDesc.TaskTypes.Count > 0)
+            {
+               var enumTypeDecl = new CodeTypeDeclaration("Task")
+               {
+                  IsEnum = true,
+                  TypeAttributes = TypeAttributes.NestedPrivate
+               };
+               partialClassDecl.Members.Add(enumTypeDecl);
+               foreach (var taskType in taskClassDesc.TaskTypes)
+                  ProcessTaskType(taskType, enumTypeDecl);
+            }
+
+            // Create anomaly enum
+            if (taskClassDesc.AnomalyTypes.Count > 0)
+            {
+               var enumTypeDecl = new CodeTypeDeclaration("Anomaly")
+               {
+                  IsEnum = true,
+                  TypeAttributes = TypeAttributes.NestedPrivate
+               };
+               partialClassDecl.Members.Add(enumTypeDecl);
+               enumTypeDecl.Members.AddRange(taskClassDesc.AnomalyTypes.Select(
+                  a_AnomalyType => new CodeMemberField("Anomaly",
+                     ConvertToEnumName(a_AnomalyType.Name)) as CodeTypeMember).ToArray());
+            }
+
+            // Add Tracer handle
+            partialClassDecl.Members.Add(new CodeMemberField
+            {
+               Attributes = MemberAttributes.Static |
+                            (taskClassDesc.IsSealed
+                               ? MemberAttributes.Private
+                               : MemberAttributes.Family),
+               Type = new CodeTypeReference {BaseType = "Tracer"},
+               Name = "CLASS_TRACER",
+               InitExpression = new CodeMethodInvokeExpression
+               {
+                  Method = new CodeMethodReferenceExpression
+                  {
+                     TargetObject = new CodeTypeReferenceExpression
+                     {
+                        Type = new CodeTypeReference {BaseType = "TracerProvider"}
+                     },
+                     MethodName = "GetTracer",
+                     TypeArguments = {new CodeTypeReference {BaseType = taskClassDesc.Name}}
+                  }
+               }
+            });
+         }
+      }
+
+      private static void ProcessTaskType(TaskType a_TaskType, CodeTypeDeclaration a_EnumTypeDecl)
+      {
+         string taskName = ConvertToEnumName(a_TaskType.Name);
+         a_EnumTypeDecl.Members.Add(new CodeMemberField("Task", taskName));
+         foreach (var subtask in a_TaskType.Subtasks)
+            ProcessTaskType(subtask, a_EnumTypeDecl);
       }
 
       private static string ConvertToEnumName(string a_Str)

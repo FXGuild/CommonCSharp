@@ -20,6 +20,15 @@ namespace FXGuild.Common.Tracing.TracedTestApp.Cultivation
         private enum Task
         {
             CULTIVATE_COFFEE_BEANS,
+            SELECT_COFFEE_SPECIES,
+            BUY_GERMINATORS_AND_SEEDBEDS,
+            GERMINATE_SEEDS,
+            DEVELOP_SEEDLINGS,
+            GROW_TREES,
+            REMOVE_WEEDS,
+            FERTILIZE,
+            GROW,
+            HARVEST_CHERRIES,
         }
     }
 }
